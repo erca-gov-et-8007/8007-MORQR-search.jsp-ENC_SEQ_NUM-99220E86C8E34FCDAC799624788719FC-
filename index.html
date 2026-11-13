@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Receipt Verification — Demonstration</title>
+<style>
+  :root {
+    --ink: #172033;
+    --muted: #788493;
+    --line: #edf0f3;
+    --blue: #3168dc;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 22px 19px 28px;
+    background: #f4f6f9;
+    color: var(--ink);
+    font-family: Arial, "Noto Sans Ethiopic", "Nyala", sans-serif;
+  }
+  .receipt {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid #e6eaf0;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(26, 42, 67, .055);
+  }
+  .hero {
+    height: 210px;
+    padding: 29px 14px 20px;
+    text-align: center;
+    color: #fff;
+    background: linear-gradient(112deg, #2864e8 0%, #4b4be9 53%, #7136e6 100%);
+  }
+  .seal {
+    width: 86px;
+    height: 86px;
+    margin: 0 auto 20px;
+    border: 5px solid #fff;
+    border-radius: 50%;
+    background: #087fb5;
+    box-shadow: 0 3px 9px rgba(0,0,0,.22);
+    display: grid;
+    place-items: center;
+    position: relative;
+  }
+  .seal:before {
+    content: "DEMO";
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(255,255,255,.8);
+    border-radius: 50%;
+    color: #fff;
+    font: 700 7px Arial, sans-serif;
+    letter-spacing: 1px;
+    padding-top: 7px;
+  }
+  .seal-core {
+    width: 43px;
+    height: 43px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #e4c65a 0 16%, #d5dbe0 17% 34%, #f8f8f4 35% 57%, #b8c2ca 58% 68%, #f4f4f4 69%);
+    border: 2px solid rgba(255,255,255,.9);
+    display: grid;
+    place-items: center;
+    color: #8b7132;
+    font-size: 18px;
+  }
+  h1 {
+    margin: 0 0 5px;
+    font-size: 22px;
+    line-height: 1.35;
+    font-weight: 700;
+    color: #fff;
+  }
+  .subtitle {
+    color: #e4e8ff;
+    font-size: 16px;
+    line-height: 1.35;
+  }
+  .demo-label {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 3px 8px;
+    border: 1px solid rgba(255,255,255,.7);
+    border-radius: 4px;
+    color: #fff;
+    background: rgba(80, 20, 35, .22);
+    font: 700 9px Arial, sans-serif;
+    letter-spacing: .65px;
+  }
+  .content { padding: 29px 7.8% 28px; }
+  .status {
+    height: 52px;
+    margin: 0 0 24px;
+    border: 1px solid #c8f0d9;
+    border-radius: 12px;
+    background: #dcf9e8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    color: #269453;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .status .tick { color: #202b2b; font-size: 24px; line-height: 1; }
+  .details {
+    border: 1px solid #e5e9ed;
+    border-radius: 11px;
+    padding: 31px 19px 28px;
+  }
+  .field {
+    padding: 0 0 14px;
+    margin: 0 0 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .field:last-child { margin: 0; padding: 0; border: 0; }
+  .am-label {
+    margin: 0 0 1px;
+    font-size: 17px;
+    line-height: 1.55;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+  .en-label {
+    margin: 0 0 5px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.35;
+    font-weight: 600;
+  }
+  .value {
+    font-size: 16px;
+    line-height: 1.4;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+  .receipt-no { color: var(--blue); font-size: 23px; }
+  .unique {
+    margin-top: 3px;
+    color: #9aa5b2;
+    font-size: 14px;
+    line-height: 1.4;
+    font-weight: 500;
+  }
+  footer {
+    min-height: 72px;
+    padding: 23px 12px;
+    border-top: 1px solid #e7ebf0;
+    background: #f8fafc;
+    color: #9aa5b2;
+    text-align: center;
+    font-size: 14px;
+  }
+  .disclaimer {
+    max-width: 640px;
+    margin: 10px auto 0;
+    text-align: center;
+    color: #8a5660;
+    font: 11px/1.45 Arial, sans-serif;
+  }
+  @media (min-width: 700px) {
+    body { padding-top: 40px; }
+    .hero { height: 340px; padding-top: 50px; }
+    .seal { width: 132px; height: 132px; margin-bottom: 31px; }
+    .seal-core { width: 68px; height: 68px; font-size: 26px; }
+    h1 { font-size: 30px; }
+    .subtitle { font-size: 20px; }
+    .content { padding-top: 50px; padding-bottom: 50px; }
+    .status { height: 72px; font-size: 25px; margin-bottom: 42px; }
+    .details { padding: 38px 34px; }
+    .am-label { font-size: 21px; }
+    .en-label { font-size: 18px; }
+    .value { font-size: 22px; }
+    .receipt-no { font-size: 36px; }
+    .unique { font-size: 18px; }
+    .field { padding-bottom: 21px; margin-bottom: 22px; }
+    footer { font-size: 18px; padding: 32px 12px; }
+  }
+  @media (max-width: 360px) {
+    body { padding-left: 10px; padding-right: 10px; }
+    .content { padding-left: 6%; padding-right: 6%; }
+    .details { padding-left: 15px; padding-right: 15px; }
+    .am-label { font-size: 16px; }
+    .value { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+<main class="receipt">
+  <header class="hero">
+    <div class="seal" aria-label="Decorative demonstration emblem">
+      <div class="seal-core">✦</div>
+    </div>
+    <h1>የኢትዮጵያ ገቢዎች ሚኒስቴር</h1>
+    <div class="subtitle">Ethiopia Ministry of Revenue</div>
+    <div class="demo-label">DEMO • NOT AN OFFICIAL RECEIPT</div>
+  </header>
+
+  <section class="content">
+    <div class="status"><span class="tick">✓</span><span>DEMO RECEIPT PREVIEW</span></div>
+    <section class="details" aria-label="Sample receipt details">
+      <div class="field">
+        <div class="am-label">የደረሰኝ መለያ ቁጥር</div>
+        <div class="en-label">Receipt No.</div>
+        <div class="value receipt-no">1601</div>
+        <div class="unique">Unique ID: 10324371601</div>
+      </div>
+      <div class="field">
+        <div class="am-label">የግብር ከፋይ መለያ ቁጥር</div>
+        <div class="en-label">Taxpayer TIN</div>
+        <div class="value">0012845024</div>
+      </div>
+      <div class="field">
+        <div class="am-label">የደረሰኝ ዓይነት</div>
+        <div class="en-label">Receipt Type</div>
+        <div class="value">CASH SALES INVOICE/VAT</div>
+      </div>
+      <div class="field">
+        <div class="am-label">የግብር ከፋይ ስም</div>
+        <div class="en-label">Taxpayer Name</div>
+        <div class="value">ባለሀብት መዋቅር አዲስ</div>
+      </div>
+      <div class="field">
+        <div class="am-label">የግብር ከፋይ ታክስ ማዕከል</div>
+        <div class="en-label">Tax Center</div>
+        <div class="value">SERS WOLAYTA SODO CITY</div>
+      </div>
+      <div class="field">
+        <div class="am-label">የቫት/VAT/ መለያ ቁጥር</div>
+        <div class="en-label">VAT ID</div>
+        <div class="value">12928680892</div>
+      </div>
+      <div class="field">
+        <div class="am-label">የቫት/VAT/ ቁጥር</div>
+        <div class="en-label">VAT No</div>
+        <div class="value">2714630892</div>
+      </div>
+      <div class="field">
+        <div class="am-label">የማተሚያ ቤት ስም</div>
+        <div class="en-label">Printed By</div>
+        <div class="value">BERHANENA SELAM PRINTING ENTERPRISE</div>
+      </div>
+    </section>
+  </section>
+  <footer>© 2024 Ministry of Revenue. Demonstration interface only.</footer>
+</main>
+<p class="disclaimer">This is a design mockup only. It is not an official government page and does not verify a receipt.</p>
+</body>
+</html>
